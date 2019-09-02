@@ -2,6 +2,26 @@
 
 # first draft (*** don't take this design too seriously ***)
 
+# instead of 
+#     import typed-dmms as dmms' 
+# use 
+#     dmms = __import__("typed-dmms")
+# because of - in the file name
+
+# testing a bit (at least establishing that we can define our traditional 'self' neuron)
+
+# >>> dmms = __import__("typed-dmms")
+# >>> dmms.new_zero_vector('matrix')
+# {'kind': 'matrix', 'repr': {}}
+# >>> dmms.neuron_types['self'] = 'accum matrix'
+# >>> dmms.neuron_types
+# {'self': 'accum matrix'}
+# >>> dmms.type_inputs['accum matrix'] = {'accum': 'matrix', 'delta':'matrix'}
+# >>> dmms.type_inputs
+# {'accum matrix': {'accum': 'matrix', 'delta': 'matrix'}}
+# >>> import copy
+# >>> dmms.type_functions['accum matrix'] = lambda accum, delta: dmms.add_nested_dict(copy.deepcopy(accum), delta)
+
 import numpy as np
 import copy
 
@@ -10,10 +30,10 @@ import copy
 # let's start with 4 kinds, "number", "image", "color image", "matrix",
 # add them as needed
 
-new_zero = {'number': 0,
-            'image': np.zeros((300, 400)),
-            'color image': np.zeros((300, 400, 3)),     
-            'matrix': {} # let's implement 'matrix' via nested dicts at the moment
+new_zero = {'number': lambda: 0,
+            'image': lambda: np.zeros((300, 400)),
+            'color image': lambda: np.zeros((300, 400, 3)),     
+            'matrix': lambda: {} # let's implement 'matrix' via nested dicts at the moment
            }
     
 neuron_types = {} # dictionary mapping neuron names to type names
@@ -25,7 +45,7 @@ type_inputs = {} # dictionary mapping type names to maps from input names to inp
 
 def new_zero_vector(kind):
     return {'kind': kind,
-            'repr': new_zero[kind]
+            'repr': new_zero[kind]()
            }
 
 def mult_number_nested_dict_in_place(coef, dict): # leaves must be numbers
