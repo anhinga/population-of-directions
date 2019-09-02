@@ -84,8 +84,8 @@ def add_nested_dict(old_dict, new_dict): # in place, adding to old_dict
             else: # no check for data being numerical !
                 old_dict[key] = old_value+value
         else:
-            old_dict[key] = copy.deep_copy(value) # if we had a warranty that new_dict is not reused this can be improved
-                                                  # right now there are no reuse plans (revisit this)
+            old_dict[key] = copy.deepcopy(value) # if we had a warranty that new_dict is not reused this can be improved
+                                                 # right now there are no reuse plans (revisit this)
                
 def add_vectors(kind, old_sum, new_vector):
     # assumes that something outside established that
