@@ -13,11 +13,11 @@ Something along those lines can be used, at least at first.)
 
 ### 3. An engine for mapping parameters into animations
 
-I committed `typed-dmms.py` to be used for this purpose. 
+I committed an initial draft of `typed_dmms.py` to be used for this purpose. 
 
 All our experimental DMMs in
 Clojure and in Processing were structured to use a single, sufficiently expressive **kind
 of linear streams**. 
 
-This new script, `typed-dmms.py`, is our first, very preliminary draft attempting to implement
+This new script, `typed_dmms.py`, is our first, very preliminary draft attempting to implement
 a scheme with multiple kinds of linear streams from our May 2016 arxiv preprint.
