@@ -2,15 +2,9 @@
 
 # first draft (*** don't take this design too seriously ***)
 
-# instead of 
-#     import typed-dmms as dmms' 
-# use 
-#     dmms = __import__("typed-dmms")
-# because of - in the file name
-
 # testing a bit (at least establishing that we can define our traditional 'self' neuron)
 
-# >>> dmms = __import__("typed-dmms")
+# >>> import typed_dmms as dmms
 # >>> dmms.new_zero_vector('matrix')
 # {'kind': 'matrix', 'repr': {}}
 # >>> dmms.neuron_types['self'] = 'accum matrix'
