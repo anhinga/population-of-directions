@@ -134,7 +134,8 @@ def apply_matrix_row_typed(input_kind, matrix_row, current_output):
     result = new_zero_vector(input_kind)
     for neuron_name, group_of_elements in matrix_row.items():
         for output_name, coef in group_of_elements.items():
-            output = current_output[neuron_name][output_name]
-            result = add_term(input_kind, result, coef, output)    
+            if neuron_name in current_output and output_name in current_output[neuron_name]:
+                output = current_output[neuron_name][output_name]
+                result = add_term(input_kind, result, coef, output)    
     return result
 

@@ -84,20 +84,7 @@ set_dict(initial_output['self']['current matrix']['repr'],
 
 set_dict(initial_output['self']['current matrix']['repr'], 
                        ['image_mouse', 'previous_mouse', 'main_mouse', 'previous_mouse'], 1) # previous_mouse connection for image_mouse neuron in the network matrix
-                       
-# NORMALLY WE SHOULD NOT HAVE TO INITIALIZE ZERO VECTORS, BUT WE DON'T HANDLE IT CORRECTLY AT THE MOMENT
-# IT'S ACTUALLY QUITE A PROBLEM, BECAUSE WE WOULD LIKE TO EXPAND THE MATRIX DYNAMICALLY, SO THE
-# ABSENCE OF A VECTOR SHOULD WORK LIKE A ZERO VECTOR. WE STILL MIGHT BE ABLE TO HANDLE THIS WITHOUT
-# PROVIDING EXPLICIT OUTPUT TYPES, SIMPLY BY SKIPPING THE TERMS WHEN NECESSARY.
-
-# BUT FOR NOW:
-set_dict(initial_output, ['main_mouse', 'current_mouse'], {'kind': 'mouse', 'repr': {'xdata': -1000.0, 'ydata': -1000.0}})
-
-set_dict(initial_output, ['main_mouse', 'previous_mouse'], {'kind': 'mouse', 'repr': {'xdata': -1000.0, 'ydata': -1000.0}})
-
-set_dict(initial_output, ['image_mouse', 'current_image_mouse'], {'kind': 'color image', 'repr': dmms.new_zero['color image']()})
-# THIS WAS FOR NOW                       
-                       
+                                            
 #print('initial_output: ', initial_output)
 
 outputs = {}
@@ -171,7 +158,7 @@ count = Count()
 
 step = Count()
 
-im = plt.imshow(initial_output['image_mouse']['current_image_mouse']['repr'], interpolation='none', aspect='auto', vmin=0, vmax=1)
+im = plt.imshow(dmms.new_zero['color image'](), interpolation='none', aspect='auto', vmin=0, vmax=1)
 
 def animate_func(i):
     step.count = step.count + 1
