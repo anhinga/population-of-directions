@@ -33,7 +33,8 @@ def mult_number_nested_dict_in_place(coef, dict): # leaves must be numbers
         if type(value) == type({}):
             mult_number_nested_dict_in_place(coef, value)
         else:
-            dict[key] = coef*value        
+            dict[key] = coef*value 
+    return dict            
            
 def mult_number_nested_dict(coef, old_dict): # new copy
     new_dict = copy.deepcopy(old_dict)
@@ -44,16 +45,17 @@ def mult_number_vector(kind, coef, vector):
     # vector[kind] = kind
     if kind in ['number', 'image', 'color image']:
         return {'kind': kind,
-                'repr': coef * vector.repr
+                'repr': coef * vector['repr']
                }
     if kind in ['matrix']:
+        print('DEBUG 2', coef, vector)
         return {'kind': kind,
-                'repr': mult_number_nested_dict(coef, vector.repr)
+                'repr': mult_number_nested_dict(coef, vector['repr'])
                }
 
 def add_nested_dict(old_dict, new_dict): # in place, adding to old_dict
     for key, value in new_dict.items():
-        if key in old_dict():
+        if key in old_dict:
             old_value = old_dict[key]
             if type(value) == type({}) and type(old_value) == type({}):
                 old_dict[key] = add_nested_dict(old_value, value)
@@ -72,9 +74,11 @@ def add_vectors(kind, old_sum, new_vector):
     # old_sum[kind] == new_vector[kind] = kind
     # *** MODIFIES old_sum ***
     if kind in ['number', 'image', 'color image']:
-        old_sum.repr += new_vector.repr
+        old_sum['repr'] += new_vector['repr']
     if kind in ['matrix']:
-        add_nested_dict(old_sum.repr, new_vector.repr)
+        print('DEBUG 3: ', old_sum)
+        print('DEBUG 4: ', new_vector)
+        add_nested_dict(old_sum['repr'], new_vector['repr'])
     return old_sum             
       
 def add_term(kind, old_sum, coef, new_vector): # *** MODIFIES old_sum ***
@@ -103,19 +107,21 @@ def up_movement(next_input): # next_input here is next_matrix returned from down
 
 def down_movement (current_output):
     next_input = {}
-    next_matrix = get_network_matrix (current_output)
-    for neuron_name, neuron_matrix_rows in next_matrix.items():
+    next_matrix = current_output['self']['current matrix']
+    assert(next_matrix['kind'] == 'matrix')
+    for neuron_name, neuron_matrix_rows in next_matrix['repr'].items():
         neuron_type = neuron_types[neuron_name]
         next_input[neuron_name] = {}
         for input_name, matrix_row in neuron_matrix_rows.items():
             input_kind = type_inputs[neuron_type][input_name]
+            print('DEBUG: ', neuron_name, input_kind, input_name, matrix_row)
             next_input[neuron_name][input_name] = apply_matrix_row_typed(input_kind, matrix_row, current_output)
     return next_input # can be used as next_input by the up_movement
     
 def apply_matrix_row_typed(input_kind, matrix_row, current_output):
     result = new_zero_vector(input_kind)
-    for neuron_name, group_of_elements in matrix_row:
-        for output_name, coef in group_of_elements:
+    for neuron_name, group_of_elements in matrix_row.items():
+        for output_name, coef in group_of_elements.items():
             output = current_output[neuron_name][output_name]
             result = add_term(input_kind, result, coef, output)    
     return result
