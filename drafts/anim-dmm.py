@@ -10,6 +10,16 @@ import matplotlib.animation as animation
 
 from skimage.draw import line, line_aa
 
+
+class BaseCoords:
+    def __init__(self):
+        self.base_xdata = 0.0
+        self.base_ydata = 0.0
+
+base_coords = BaseCoords()
+
+main_mouse = BaseCoords()
+
 assert(dmms.new_zero_vector('matrix') == {'kind': 'matrix', 'repr': {}})
 
 dmms.neuron_types['self'] = 'accum matrix'
@@ -26,13 +36,36 @@ dmms.type_functions['accum matrix'] = lambda inputs: {'current matrix':
                                                                                         inputs['delta']['repr'] if 'delta' in inputs
                                                                                                                 else {})}}
 
+dmms.neuron_types['main_mouse'] = 'smart_mouse'
+
+dmms.type_inputs['smart_mouse'] = {'previous': 'mouse'}
+
+dmms.type_functions['smart_mouse'] = lambda inputs: {'current_mouse':
+                                                         {'kind': 'mouse',
+                                                          'repr': {'xdata': main_mouse.base_xdata,
+                                                                   'ydata': main_mouse.base_ydata}},
+                                                     'previous_mouse':
+                                                         inputs['previous']}
+                                                                                                                
 initial_output = {}
 
 set_dict(initial_output, ['self', 'current matrix'], {'kind': 'matrix', 'repr': {}}) # this is where the network matrix sits 
 
 set_dict(initial_output['self']['current matrix']['repr'], 
                        ['self', 'accum', 'self', 'current matrix'], 1) # this is the "main 1" of that matrix
+                       
+set_dict(initial_output['self']['current matrix']['repr'], 
+                       ['main_mouse', 'previous', 'main_mouse', 'current_mouse'], 1) # mouse neuron in the network matrix
 
+                       
+# NORMALLY WE SHOULD NOT HAVE TO INITIALIZE ZERO VECTORS, BUT WE DON'T HANDLE IT CORRECTLY AT THE MOMENT
+# IT'S ACTUALLY QUITE A PROBLEM, BECAUSE WE WOULD LIKE TO EXPAND THE MATRIX DYNAMICALLY, SO THE
+# ABSENCE OF A VECTOR SHOULD WORK LIKE A ZERO VECTOR. WE STILL MIGHT BE ABLE TO HANDLE THIS WITHOUT
+# PROVIDING EXPLICIT OUTPUT TYPES, SIMPLY BY SKIPPING THE TERMS WHEN NECESSARY.
+
+# BUT FOR NOW:
+set_dict(initial_output, ['main_mouse', 'current_mouse'], {'kind': 'mouse', 'repr': dmms.new_zero['mouse']()})                       
+                       
 print('initial_output: ', initial_output)
 
 outputs = {}
@@ -52,12 +85,6 @@ class Pressed:
     def __init__(self):
         self.pressed = False
         
-class BaseCoords:
-    def __init__(self):
-        self.base_xdata = 0.0
-        self.base_ydata = 0.0
-
-base_coords = BaseCoords()
 
 pressed = Pressed()
 
@@ -78,12 +105,14 @@ def onrelease(event):
           (event.x, event.y, event.xdata, event.ydata))
            
 def onmove(event):
+    main_mouse.base_xdata = event.xdata if event.xdata != None else -1000.0
+    main_mouse.base_ydata = event.ydata if event.ydata != None else -1000.0
     if pressed.pressed:
         # draw line
         # print(type(base_coords.base_xdata), type(event.xdata))
         rr, cc = line(int(round(base_coords.base_xdata)), int(round(base_coords.base_ydata)),
                       int(round(event.xdata)), int(round(event.ydata)))
-        print("DEBUG: ", len(rr), len(cc))
+        print("DEBUG MOUSE: ", len(rr), len(cc))
         dd = np.zeros(len(rr), dtype=np.int64)
         print(rr.dtype, cc.dtype, dd.dtype)
         a[cc, rr, dd] = 255 # 1.0
@@ -146,7 +175,7 @@ anim = animation.FuncAnimation(
                                animate_func, 
                                #frames = nSeconds * fps,
                                #init_func = init_func_dummy,
-                               interval = 1 # 1000 # 1000 / fps, # in ms
+                               interval = 1000 # 1000 / fps, # in ms
                                )
 
 #anim.save('test_anim.mp4', fps=fps, extra_args=['-vcodec', 'libx264'])

@@ -7,13 +7,14 @@ import copy
 
 # vector consists of "kind" and "repr" (representation) 
 
-# let's start with 4 kinds, "number", "image", "color image", "matrix",
+# let's start with 5 kinds, "number", "image", "color image", "matrix", "mouse"
 # add them as needed
 
 new_zero = {'number': lambda: 0,
             'image': lambda: np.zeros((300, 400)),
             'color image': lambda: np.zeros((300, 400, 3)),     
-            'matrix': lambda: {} # let's implement 'matrix' via nested dicts at the moment
+            'matrix': lambda: {}, # let's implement 'matrix' via nested dicts at the moment
+            'mouse': lambda: {'xdata': 0.0, 'ydata': 0.0}
            }
     
 neuron_types = {} # dictionary mapping neuron names to type names
@@ -47,7 +48,7 @@ def mult_number_vector(kind, coef, vector):
         return {'kind': kind,
                 'repr': coef * vector['repr']
                }
-    if kind in ['matrix']:
+    if kind in ['matrix', 'mouse']:
         print('DEBUG 2', coef, vector)
         return {'kind': kind,
                 'repr': mult_number_nested_dict(coef, vector['repr'])
@@ -76,7 +77,7 @@ def add_vectors(kind, old_sum, new_vector):
     # *** MODIFIES old_sum ***
     if kind in ['number', 'image', 'color image']:
         old_sum['repr'] += new_vector['repr']
-    if kind in ['matrix']:
+    if kind in ['matrix', 'mouse']:
         print('DEBUG 3: ', old_sum)
         print('DEBUG 4: ', new_vector)
         add_nested_dict(old_sum['repr'], new_vector['repr'])
