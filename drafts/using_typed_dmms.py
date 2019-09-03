@@ -15,9 +15,11 @@ dmms.type_inputs['accum matrix'] = {'accum': 'matrix', 'delta':'matrix'}
 
 assert(dmms.type_inputs == {'accum matrix': {'accum': 'matrix', 'delta': 'matrix'}})
 
-dmms.type_functions['accum matrix'] = lambda accum, delta: {'current matrix': 
-                                                                {'kind': 'matrix',
-                                                                 'repr':  dmms.add_nested_dict(copy.deepcopy(accum), delta)}}
+dmms.type_functions['accum matrix'] = lambda inputs: {'current matrix': 
+                                                         {'kind': 'matrix',
+                                                          'repr':  dmms.add_nested_dict(copy.deepcopy(inputs['accum']['repr']), 
+                                                                                        inputs['delta']['repr'] if 'delta' in inputs
+                                                                                                                else {})}}
 
 initial_output = {}
 
@@ -30,5 +32,9 @@ print('initial_output: ', initial_output)
                           
 initial_input = dmms.down_movement(initial_output)
 
-print(initial_input)                          
+print('initial input: ', initial_input)
+
+second_output = dmms.up_movement(initial_input) 
+
+print('second output: ', second_output)                        
 

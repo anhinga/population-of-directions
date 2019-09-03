@@ -68,7 +68,8 @@ def add_nested_dict(old_dict, new_dict): # in place, adding to old_dict
         else:
             old_dict[key] = copy.deepcopy(value) # if we had a warranty that new_dict is not reused this can be improved
                                                  # right now there are no reuse plans (revisit this)
-               
+    return old_dict
+                                                 
 def add_vectors(kind, old_sum, new_vector):
     # assumes that something outside established that
     # old_sum[kind] == new_vector[kind] = kind
@@ -102,6 +103,7 @@ def up_movement(next_input): # next_input here is next_matrix returned from down
     next_output = {}
     for neuron_name, neuron_inputs in next_input.items():
         neuron_type = neuron_types[neuron_name]
+        print('DEBUG 5: ', neuron_type, neuron_name, neuron_inputs)
         next_output[neuron_name] = type_functions[neuron_type](neuron_inputs) # apply activation function
     return next_output # can be used as current_output on the next cycle
 
