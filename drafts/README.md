@@ -11,6 +11,8 @@ The system consists of 3 main components:
 `anim_dmm.py` is a very rough `matplotlib` program demonstrating required capabilities and running one DMM cycle
 per frame. Something along those lines can be used, at least at first.
 
+Run `python anim_dmm.py` to see an animation of a small mouse-aware DMM.
+
 ### 3. An engine for mapping parameters into animations
 
 I committed an initial draft of `typed_dmms.py` to be used for this purpose. 
