@@ -52,7 +52,7 @@ def mult_number_vector(kind, coef, vector):
                 'repr': coef * vector['repr']
                }
     if kind in ['matrix', 'mouse']:
-        print('DEBUG 2', coef, vector)
+        #print('DEBUG 2', coef, vector)
         return {'kind': kind,
                 'repr': mult_number_nested_dict(coef, vector['repr'])
                }
@@ -81,12 +81,16 @@ def add_vectors(kind, old_sum, new_vector):
     if kind in ['number', 'image', 'color image']:
         old_sum['repr'] += new_vector['repr']
     if kind in ['matrix', 'mouse']:
-        print('DEBUG 3: ', old_sum)
-        print('DEBUG 4: ', new_vector)
+        #print('DEBUG 3: ', old_sum)
+        #print('DEBUG 4: ', new_vector)
         add_nested_dict(old_sum['repr'], new_vector['repr'])
     return old_sum             
       
 def add_term(kind, old_sum, coef, new_vector): # *** MODIFIES old_sum ***
+    #print('OLD_SUM')
+    #print(old_sum)
+    #print('NEW_VECTOR')
+    #print(new_vector)
     if kind == old_sum['kind'] and kind == new_vector['kind']:
         # need to compute and return old_sum+coef*new_vector
         # where + and * are interpreted according to kind
@@ -107,7 +111,7 @@ def up_movement(next_input): # next_input here is next_matrix returned from down
     next_output = {}
     for neuron_name, neuron_inputs in next_input.items():
         neuron_type = neuron_types[neuron_name]
-        print('DEBUG 5: ', neuron_type, neuron_name, neuron_inputs)
+        #print('DEBUG 5: ', neuron_type, neuron_name, neuron_inputs)
         next_output[neuron_name] = type_functions[neuron_type](neuron_inputs) # apply activation function
     return next_output # can be used as current_output on the next cycle
 
@@ -119,8 +123,10 @@ def down_movement (current_output):
         neuron_type = neuron_types[neuron_name]
         next_input[neuron_name] = {}
         for input_name, matrix_row in neuron_matrix_rows.items():
+            #print('DEBUG 6: neuron_name, input_name, matrix_row', neuron_name, input_name, matrix_row)
+            #print('DEBUG 6: neuron_name, type_inputs[neuron_type]: ', neuron_name, type_inputs[neuron_type])
             input_kind = type_inputs[neuron_type][input_name]
-            print('DEBUG: ', neuron_name, input_kind, input_name, matrix_row)
+            #print('DEBUG: ', neuron_name, input_kind, input_name, matrix_row)
             next_input[neuron_name][input_name] = apply_matrix_row_typed(input_kind, matrix_row, current_output)
     return next_input # can be used as next_input by the up_movement
     

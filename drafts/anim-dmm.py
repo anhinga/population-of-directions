@@ -46,7 +46,26 @@ dmms.type_functions['smart_mouse'] = lambda inputs: {'current_mouse':
                                                                    'ydata': main_mouse.base_ydata}},
                                                      'previous_mouse':
                                                          inputs['previous']}
-                                                                                                                
+
+dmms.neuron_types['image_mouse'] = 'image_mouse_type'
+
+dmms.type_inputs['image_mouse_type'] = {'accum': 'color image', 'current_mouse': 'mouse', 'previous_mouse': 'mouse'}
+
+def draw_a_line_on_image(inputs):
+    current_x = int(round(inputs['current_mouse']['repr']['xdata']))
+    current_y = int(round(inputs['current_mouse']['repr']['ydata']))
+    previous_x = int(round(inputs['previous_mouse']['repr']['xdata']))
+    previous_y = int(round(inputs['previous_mouse']['repr']['ydata']))
+    if current_x >= 0 and current_y >= 0 and previous_x >=0 and previous_y >= 0:    
+        rr, cc = line(previous_x, previous_y, current_x, current_y)
+        dd = np.zeros(len(rr), dtype=np.int64)
+        #print(rr.dtype, cc.dtype, dd.dtype)
+        # NEED TO EITHER COPY THIS IMAGE, OR ASSUME NON-SHARING (CURRENTLY THIS HOLDS)
+        inputs['accum']['repr'][cc, rr, dd] = 1.0 # 255
+    return {'current_image_mouse': inputs['accum']}
+        
+dmms.type_functions['image_mouse_type'] = draw_a_line_on_image
+                                                         
 initial_output = {}
 
 set_dict(initial_output, ['self', 'current matrix'], {'kind': 'matrix', 'repr': {}}) # this is where the network matrix sits 
@@ -57,6 +76,14 @@ set_dict(initial_output['self']['current matrix']['repr'],
 set_dict(initial_output['self']['current matrix']['repr'], 
                        ['main_mouse', 'previous', 'main_mouse', 'current_mouse'], 1) # mouse neuron in the network matrix
 
+set_dict(initial_output['self']['current matrix']['repr'], 
+                       ['image_mouse', 'accum', 'image_mouse', 'current_image_mouse'], 1) # accum connection for image_mouse neuron in the network matrix
+
+set_dict(initial_output['self']['current matrix']['repr'], 
+                       ['image_mouse', 'current_mouse', 'main_mouse', 'current_mouse'], 1) # current_mouse connection for image_mouse neuron in the network matrix
+
+set_dict(initial_output['self']['current matrix']['repr'], 
+                       ['image_mouse', 'previous_mouse', 'main_mouse', 'previous_mouse'], 1) # previous_mouse connection for image_mouse neuron in the network matrix
                        
 # NORMALLY WE SHOULD NOT HAVE TO INITIALIZE ZERO VECTORS, BUT WE DON'T HANDLE IT CORRECTLY AT THE MOMENT
 # IT'S ACTUALLY QUITE A PROBLEM, BECAUSE WE WOULD LIKE TO EXPAND THE MATRIX DYNAMICALLY, SO THE
@@ -64,9 +91,14 @@ set_dict(initial_output['self']['current matrix']['repr'],
 # PROVIDING EXPLICIT OUTPUT TYPES, SIMPLY BY SKIPPING THE TERMS WHEN NECESSARY.
 
 # BUT FOR NOW:
-set_dict(initial_output, ['main_mouse', 'current_mouse'], {'kind': 'mouse', 'repr': {'xdata': -1000.0, 'ydata': -1000.0}})                       
+set_dict(initial_output, ['main_mouse', 'current_mouse'], {'kind': 'mouse', 'repr': {'xdata': -1000.0, 'ydata': -1000.0}})
+
+set_dict(initial_output, ['main_mouse', 'previous_mouse'], {'kind': 'mouse', 'repr': {'xdata': -1000.0, 'ydata': -1000.0}})
+
+set_dict(initial_output, ['image_mouse', 'current_image_mouse'], {'kind': 'color image', 'repr': dmms.new_zero['color image']()})
+# THIS WAS FOR NOW                       
                        
-print('initial_output: ', initial_output)
+#print('initial_output: ', initial_output)
 
 outputs = {}
 
@@ -146,9 +178,9 @@ def animate_func(i):
     #  while we can afford it memory-wise)
     
     inputs[step.count] = dmms.down_movement(outputs[step.count-1])
-    print('inputs[',step.count,']=', inputs[step.count])
+    #print('inputs[',step.count,']=', inputs[step.count])
     outputs[step.count] = dmms.up_movement(inputs[step.count]) 
-    print('outputs[',step.count,']=', outputs[step.count])    
+    #print('outputs[',step.count,']=', outputs[step.count])    
 
     if i % fps == 0:
         #print( '.') #, end ='' )
