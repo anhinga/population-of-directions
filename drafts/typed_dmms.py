@@ -10,9 +10,12 @@ import copy
 # let's start with 5 kinds, "number", "image", "color image", "matrix", "mouse"
 # add them as needed
 
+image_height = 300
+image_width = 400
+
 new_zero = {'number': lambda: 0,
-            'image': lambda: np.zeros((300, 400)),
-            'color image': lambda: np.zeros((300, 400, 3)),     
+            'image': lambda: np.zeros((image_height, image_width)),
+            'color image': lambda: np.zeros((image_height, image_width, 3)),     
             'matrix': lambda: {}, # let's implement 'matrix' via nested dicts at the moment
             'mouse': lambda: {'xdata': 0.0, 'ydata': 0.0}
            }

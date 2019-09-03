@@ -64,7 +64,7 @@ set_dict(initial_output['self']['current matrix']['repr'],
 # PROVIDING EXPLICIT OUTPUT TYPES, SIMPLY BY SKIPPING THE TERMS WHEN NECESSARY.
 
 # BUT FOR NOW:
-set_dict(initial_output, ['main_mouse', 'current_mouse'], {'kind': 'mouse', 'repr': dmms.new_zero['mouse']()})                       
+set_dict(initial_output, ['main_mouse', 'current_mouse'], {'kind': 'mouse', 'repr': {'xdata': -1000.0, 'ydata': -1000.0}})                       
                        
 print('initial_output: ', initial_output)
 
@@ -79,7 +79,7 @@ inputs = {}
 fps = 30
 nSeconds = 5
 
-a = np.zeros((300, 400, 3), dtype = np.uint8)
+a = np.zeros((dmms.image_height, dmms.image_width, 3), dtype = np.uint8)
 
 class Pressed:
     def __init__(self):
