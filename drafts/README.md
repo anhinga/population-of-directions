@@ -8,8 +8,8 @@ The system consists of 3 main components:
 
 ### 2. Interface for showing animations and taking mouse feedback
 
-(A very rough `matplotlib` program demonstrating required capabilities exists in my local backup.
-Something along those lines can be used, at least at first.)
+`anim_dmm.py` is a very rough `matplotlib` program demonstrating required capabilities and running one DMM cycle
+per frame. Something along those lines can be used, at least at first.
 
 ### 3. An engine for mapping parameters into animations
 
