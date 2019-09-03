@@ -111,7 +111,10 @@ inputs = {}
 fps = 30
 nSeconds = 5
 
-a = np.zeros((dmms.image_height, dmms.image_width, 3), dtype = np.uint8)
+#a = np.zeros((dmms.image_height, dmms.image_width, 3), dtype = np.uint8)
+
+# the kosher thing is to have a separate output neuron,
+# but let's just use the output['image_mouse']['current_image_mouse']['repr'] for now
 
 class Pressed:
     def __init__(self):
@@ -147,7 +150,7 @@ def onmove(event):
         print("DEBUG MOUSE: ", len(rr), len(cc))
         dd = np.zeros(len(rr), dtype=np.int64)
         print(rr.dtype, cc.dtype, dd.dtype)
-        a[cc, rr, dd] = 255 # 1.0
+        #a[cc, rr, dd] = 255 # 1.0
         base_coords.base_xdata = event.xdata
         base_coords.base_ydata = event.ydata
     print('mouse move: , x=%d, y=%d, xdata=%f, ydata=%f' %
@@ -168,7 +171,7 @@ count = Count()
 
 step = Count()
 
-im = plt.imshow(a, interpolation='none', aspect='auto', vmin=0, vmax=1)
+im = plt.imshow(initial_output['image_mouse']['current_image_mouse']['repr'], interpolation='none', aspect='auto', vmin=0, vmax=1)
 
 def animate_func(i):
     step.count = step.count + 1
@@ -188,15 +191,15 @@ def animate_func(i):
         
     j = i%150    
 
-    if (j < 50):
-        a[j+count.count,j,0] = 255*j//50
-    else:
-        if (j < 100):
-            a[j+count.count,j,1] = 255*(j-50)//50 
-        else:
-            if (j < 150):
-                a[j+count.count,j,2] = 255*(j-100)//100            
-    im.set_data(a)    
+    #if (j < 50):
+    #    a[j+count.count,j,0] = 255*j//50
+    #else:
+    #    if (j < 100):
+    #        a[j+count.count,j,1] = 255*(j-50)//50 
+    #    else:
+    #        if (j < 150):
+    #            a[j+count.count,j,2] = 255*(j-100)//100            
+    im.set_data(outputs[step.count]['image_mouse']['current_image_mouse']['repr'])    
     #im.set_array(snapshots[i])
     if i % (fps*nSeconds) == 0:
         count.count = count.count + 1
@@ -207,7 +210,7 @@ anim = animation.FuncAnimation(
                                animate_func, 
                                #frames = nSeconds * fps,
                                #init_func = init_func_dummy,
-                               interval = 1000 # 1000 / fps, # in ms
+                               interval = 1 # 1000 / fps, # in ms
                                )
 
 #anim.save('test_anim.mp4', fps=fps, extra_args=['-vcodec', 'libx264'])
