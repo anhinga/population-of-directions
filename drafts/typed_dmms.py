@@ -2,20 +2,6 @@
 
 # first draft (*** don't take this design too seriously ***)
 
-# testing a bit (at least establishing that we can define our traditional 'self' neuron)
-
-# >>> import typed_dmms as dmms
-# >>> dmms.new_zero_vector('matrix')
-# {'kind': 'matrix', 'repr': {}}
-# >>> dmms.neuron_types['self'] = 'accum matrix'
-# >>> dmms.neuron_types
-# {'self': 'accum matrix'}
-# >>> dmms.type_inputs['accum matrix'] = {'accum': 'matrix', 'delta':'matrix'}
-# >>> dmms.type_inputs
-# {'accum matrix': {'accum': 'matrix', 'delta': 'matrix'}}
-# >>> import copy
-# >>> dmms.type_functions['accum matrix'] = lambda accum, delta: dmms.add_nested_dict(copy.deepcopy(accum), delta)
-
 import numpy as np
 import copy
 
