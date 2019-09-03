@@ -21,3 +21,5 @@ of linear streams**.
 
 This new script, `typed_dmms.py`, is our first, very preliminary draft attempting to implement
 a scheme with multiple kinds of linear streams from our May 2016 arxiv preprint.
+
+Run `python using_typed_dmms.py` for initial testing.
