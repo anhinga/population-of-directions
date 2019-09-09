@@ -1,6 +1,11 @@
 # starting to test and use typed_dmms
 
 def set_dict(dict, key_path, value):
+    """ set_dict(dict, [key_0, ..., key_n], value) is 
+        a correct implementation of
+        
+        dict[key_0]...[key_n] = value
+    """
     len_key_path = len(key_path)
     dict_ptr = dict
     assert (len_key_path >= 1) 

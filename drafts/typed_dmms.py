@@ -107,7 +107,7 @@ def add_term(kind, old_sum, coef, new_vector): # *** MODIFIES old_sum ***
 # next_input = down_movement (current_output)
 # next_output = up_movement (next_input)
 
-def up_movement(next_input): # next_input here is next_matrix returned from down_movement
+def up_movement(next_input): # next_input should come from down_movement
     next_output = {}
     for neuron_name, neuron_inputs in next_input.items():
         neuron_type = neuron_types[neuron_name]

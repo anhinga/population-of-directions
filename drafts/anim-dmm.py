@@ -3,7 +3,6 @@ import numpy as np
 import copy
 from utils import set_dict
 
-import matplotlib
 import matplotlib.pyplot as plt
 
 import matplotlib.animation as animation
@@ -130,16 +129,17 @@ def onmove(event):
     main_mouse.base_xdata = event.xdata if event.xdata != None else -1000.0
     main_mouse.base_ydata = event.ydata if event.ydata != None else -1000.0
     if pressed.pressed:
+        pass # instead of what is commented out
         # draw line
         # print(type(base_coords.base_xdata), type(event.xdata))
-        rr, cc = line(int(round(base_coords.base_xdata)), int(round(base_coords.base_ydata)),
-                      int(round(event.xdata)), int(round(event.ydata)))
-        print("DEBUG MOUSE: ", len(rr), len(cc))
-        dd = np.zeros(len(rr), dtype=np.int64)
-        print(rr.dtype, cc.dtype, dd.dtype)
+        # rr, cc = line(int(round(base_coords.base_xdata)), int(round(base_coords.base_ydata)),
+        #               int(round(event.xdata)), int(round(event.ydata)))
+        #print("DEBUG MOUSE: ", len(rr), len(cc))
+        #dd = np.zeros(len(rr), dtype=np.int64)
+        #print(rr.dtype, cc.dtype, dd.dtype)
         #a[cc, rr, dd] = 255 # 1.0
-        base_coords.base_xdata = event.xdata
-        base_coords.base_ydata = event.ydata
+        #base_coords.base_xdata = event.xdata
+        #base_coords.base_ydata = event.ydata
     print('mouse move: , x=%d, y=%d, xdata=%f, ydata=%f' %
           (event.x, event.y, event.xdata if event.xdata != None else -1000.0, 
                              event.ydata if event.ydata != None else -1000.0))           
