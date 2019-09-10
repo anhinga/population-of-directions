@@ -4,7 +4,7 @@ The system consists of 3 main components:
 
 ### 1. Control for the interactive evolution by population descent
 
-(Should work according to what I specified in the main README. A fairly detailed hand-written design exists.)
+(Should work according to what I specified in the main README. The [original hand-written design notes](https://github.com/anhinga/population-of-directions/tree/master/drafts/original-spec-draft) for this part of the system are posted.)
 
 ### 2. Interface for showing animations and taking mouse feedback
 
