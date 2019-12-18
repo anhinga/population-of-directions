@@ -1,7 +1,6 @@
 import typed_dmms as dmms
 import numpy as np
 import copy
-#from utils import set_dict
 
 from skimage.draw import line, line_aa
 

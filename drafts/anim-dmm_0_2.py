@@ -1,8 +1,5 @@
 import typed_dmms as dmms
 import network_0 as dmm_net
-#import numpy as np
-#import copy
-#from utils import set_dict
 
 import state_of_machine as state
 

@@ -1,4 +1,5 @@
 import neuron_types as nt
+
 from utils import set_dict
 
 import state_of_machine as state
