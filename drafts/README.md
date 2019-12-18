@@ -28,7 +28,8 @@ Run `python using_typed_dmms.py` for initial testing.
 
 ### First refactoring
 
-`anim-dmm.py` is split into `anim-dmm_0_2.py`, `state_of_machine.py`, and `network_0.py`
-in order to detangle the network description and animation engine.
+`anim-dmm.py` is split into `anim-dmm_0_2.py`, `state_of_machine.py`, `neuron_types.py`, and `network_0.py`
+in order to detangle the network description and animation engine, and also to separate types and activation functions
+(which are now in `neuron_types.py`) and the initial network matrix (and the rest of initial network output if required).
 
 Run `python anim-dmm_0_2.py` to see an animation of a small mouse-aware DMM.
