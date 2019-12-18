@@ -1,4 +1,5 @@
 import typed_dmms as dmms
+import neuron_types as nt
 import network_0 as dmm_net
 
 import state_of_machine as state
