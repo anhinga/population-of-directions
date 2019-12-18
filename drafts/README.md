@@ -25,3 +25,10 @@ This new script, `typed_dmms.py`, is our first, very preliminary draft attemptin
 a scheme with multiple kinds of linear streams from our May 2016 arxiv preprint.
 
 Run `python using_typed_dmms.py` for initial testing.
+
+### First refactoring
+
+`anim-dmm.py` is split into `anim-dmm_0_2.py`, `state_of_machine.py`, and `network_0.py`
+in order to detangle the network description and animation engine.
+
+Run `python anim_dmm_0_2.py` to see an animation of a small mouse-aware DMM.
