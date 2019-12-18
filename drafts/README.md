@@ -31,4 +31,4 @@ Run `python using_typed_dmms.py` for initial testing.
 `anim-dmm.py` is split into `anim-dmm_0_2.py`, `state_of_machine.py`, and `network_0.py`
 in order to detangle the network description and animation engine.
 
-Run `python anim_dmm_0_2.py` to see an animation of a small mouse-aware DMM.
+Run `python anim-dmm_0_2.py` to see an animation of a small mouse-aware DMM.
