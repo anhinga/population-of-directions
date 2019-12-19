@@ -1,3 +1,5 @@
+# File to define available neuron types
+
 import typed_dmms as dmms
 import numpy as np
 import copy
@@ -8,9 +10,7 @@ import state_of_machine as state
 
 assert(dmms.new_zero_vector('matrix') == {'kind': 'matrix', 'repr': {}})
 
-dmms.neuron_types['self'] = 'accum matrix'
-
-assert(dmms.neuron_types == {'self': 'accum matrix'})
+# the type of network matrix
 
 dmms.type_inputs['accum matrix'] = {'accum': 'matrix', 'delta':'matrix'}
 
@@ -22,7 +22,7 @@ dmms.type_functions['accum matrix'] = lambda inputs: {'current matrix':
                                                                                         inputs['delta']['repr'] if 'delta' in inputs
                                                                                                                 else {})}}
 
-dmms.neuron_types['main_mouse'] = 'smart_mouse'
+# the type of mouse which aware of its previous position
 
 dmms.type_inputs['smart_mouse'] = {'previous': 'mouse'}
 
@@ -33,7 +33,9 @@ dmms.type_functions['smart_mouse'] = lambda inputs: {'current_mouse':
                                                      'previous_mouse':
                                                          inputs['previous']}
 
-dmms.neuron_types['image_mouse'] = 'image_mouse_type'
+# the type of image aware of the mouse and set to draw lines defined by mouse movements														 
+														 
+
 
 dmms.type_inputs['image_mouse_type'] = {'accum': 'color image', 'current_mouse': 'mouse', 'previous_mouse': 'mouse'}
 

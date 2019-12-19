@@ -1,6 +1,27 @@
+# an example of a dmm network
+
+import typed_dmms as dmms
 from utils import set_dict
 
 import state_of_machine as state
+
+# neuron types 
+
+# 'self' is a reserved neuron, please define it like this
+
+dmms.neuron_types['self'] = 'accum matrix'
+
+assert(dmms.neuron_types == {'self': 'accum matrix'})
+
+dmms.neuron_types['main_mouse'] = 'smart_mouse'
+
+dmms.neuron_types['image_mouse'] = 'image_mouse_type'
+
+# initial nonzero outputs, including initial network matrix
+
+# (nonzero outputs must be set, before the network can start running its linear/nonlinear two-stroke cycle)
+
+# (in this case, the initial network matrix is the only initial nonzero output)
                                                          
 initial_output = {}
 
