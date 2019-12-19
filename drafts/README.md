@@ -33,3 +33,9 @@ in order to detangle the network description and animation engine, and also to s
 (which are now in `neuron_types.py`) and the initial network matrix (and the rest of initial network output if required).
 
 Run `python anim-dmm_0_2.py` to see an animation of a small mouse-aware DMM.
+
+To add new primitives (that is, new types of neurons) extend `neuron_types.py` with more types
+(currently it has three types). A type describes what kinds of linear streams are on inputs
+of the neuron, and what is its built-in _activation function_.
+
+To create new dmm network, write something instead of `network_0.py`.
